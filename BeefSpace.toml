@@ -1,0 +1,5 @@
+FileVersion = 1
+Projects = {dj-patch = {Path = "."}}
+
+[Workspace]
+StartupProject = "dj-patch"
