@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 
-namespace djpatch {
+namespace DoubleJumpPatcher {
 	class Program {
 
 		public const String[3] gameNames = .("Spyro YotD - NTSC v1.0", "Spyro YotD - NTSC v1.1", "Spyro YotD - PAL 1.0/1.1");
@@ -22,6 +22,7 @@ namespace djpatch {
 
 
 			FileStream file = scope FileStream();
+			//file.Open("C:/Users/coolj/Desktop/spyro3.bin");
 			if (args.Count == 0) {
 				Console.WriteLine("No File Detected! (No path provided.)");
 
