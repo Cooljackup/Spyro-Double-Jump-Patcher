@@ -1,5 +1,5 @@
 FileVersion = 1
 
 [Project]
-Name = "dj-patch"
-StartupObject = "djpatch.Program"
+Name = "DoubleJumpPatcher"
+StartupObject = "DoubleJumpPatcher.Program"

@@ -1,111 +1,93 @@
 using System;
 using System.IO;
-using System.Threading;
 
-namespace djpatch {
+namespace DoubleJumpPatcher {
 	class Program {
 
-		public const String[3] gameNames = .("Spyro YotD - NTSC v1.0", "Spyro YotD - NTSC v1.1", "Spyro YotD - PAL 1.0/1.1");
-		public const uint32[3] versionCheck = .(0x783F8, 0x784D8, 0xCB69);
-		public const uint32[3] firstOffset = .(0x53FDC, 0x54000, 0x5676C);
-		public const uint32[3] secondOffset = .(0x54084, 0x540A8, 0x56824);
-		public const uint32[3] secondOffsetValue = .(0xAC2003BC, 0xAC20049C, 0xAC2036B8);
+		// Setup basic information variables.
+		public const String[3] gameNames = .("Spyro: Year of the Dragon (v1.0 NTSC-U)", "Spyro: Year of the Dragon (v1.1 NTSC-U)", "Spyro: Year of the Dragon (v1.0/v1.1 PAL)");
+		public const uint32[3] versionCheck = .(0x783F8, 0x784D8, 0xCB69); // This checks in the .bin file where the first string of "Spyro" is referenced.
+		public const uint32[3] firstOffset = .(0x53FDC, 0x54000, 0x5676C); // This is where the first offset is when the first instruction is changed in the .bin file.
+		public const uint32[3] secondOffset = .(0x54084, 0x540A8, 0x56824); // This is where the second offset is when the second instruction is changed in the .bin file.
+		public const uint32[3] secondOffsetRestoreValue = .(0xAC2003BC, 0xAC20049C, 0xAC2036B8); // These are the original values for each version of the game. The bytes are backwards since thats how they are read.
 
 
 		static void Main(String[]args) {
 
-			Console.WriteLine("Double Jump Patcher/Unpatcher Tool for Spyro - Year of the Dragon. \nProgram made by Zethical. (Build v9.18.2020) \n\n");
-			Console.WriteLine("This tool allows you to enable and disable Double Jump as you please back into Spyro - YotD by editing a few of Spyro's movement instructions to restore Double Jump from Spyro - Ripto's Rage. \n\n*PLEASE NOTE: I recommend making a backup of the ROM you wish to edit just in case if this program decides for whatever reason to mess up and make a mistake! (You have been warned!)");
-			Console.WriteLine("\n**HOW TO USE THIS PROGRAM: Drag and drop any Spyro - YotD ROM file you wish to patch/unpatch. \n*NOTE: I cannot guarantee any earlier builds of Spyro - Year of the Dragon will work. (This is where I recommend having a backup! You have been warned, again!)");
-			Console.WriteLine("\n\nIf you still wish to proceed, please press ENTER. \n");
-			System.Console.ReadLine(scope String());
+			// Basic window setup.
+			Console.WriteLine("Double Jump Patcher/Unpatcher Tool for Spyro: Year of the Dragon. \nProgram created by Zethical. (Build v10.18.2020) \n\n");
+			Console.WriteLine("This tool allows you to add and remove Double Jump back as you please into any version of Spyro: Year of the Dragon.");
+			Console.WriteLine("HOW IT WORKS: It edits a few lines of code in Spyro's movement instructions, which allows us to restore and Double Jump from Spyro: Ripto's Rage back so easily.");
+			Console.WriteLine("HOW TO USE THIS PROGRAM: Just drag and drop any Spyro: Year of the Dragon ROM you wish to patch / unpatch onto this! \n");
+			Console.WriteLine("**IF** you do plan on using this tool, I would always recommended creating a backup of your ROM just in case.");
+			Console.WriteLine("If you're okay with this, please proceed. You have been warned! \nPress ENTER to continue. \n");
+			System.Console.ReadLine(scope String()); // Waits for the user to hit ENTER, to proceed with code.
 
 
-			FileStream file = scope FileStream();
-			if (args.Count == 0) {
-				Console.WriteLine("No File Detected! (No path provided.)");
+			FileStream File = scope FileStream();
+			//let result = File.Open("C:/Users/coolj/Desktop/spyro3.bin"); // Used for debugging purposes! You can put your own path and replace mine if you want to test it within Beef.
+			let result = File.Open(args[0]); // Make sure to comment this out if you use the other 'let result', as this is for built versions of the program.
+			int versionIndex = -1; // Sets it to -1 since if none of the version are found, it keeps it at -1 and lets us return a error to the user.
+
+			// This detects whether or not the program was launched without a file specified to read.
+			if (args.Count == 0 && false) {
+				Console.WriteLine("No file was detected! (Are you sure you're providing a file path to a Spyro: Year of the Dragon ROM?)");
 
 			} else {
-				let result  = file.Open(args[0]);
+				switch (result) {
+				case .Err:
+					Console.WriteLine("No file was detected! (Are you providing the correct file path to the ROM?)"); // If a path is specified, but no file is detected.
 
-				if (result == .Err(0)) {
-					Console.WriteLine("No File Detected! (Are you providing the correct file path?)");
-				} else {
-
-					int versionIndex = -1;
+				case .Ok:
+					// Basic for loop, goes through all 3 offsets from versionCheck, seeing if any of them line up and find the string "Spyro".
 					for (int v < 3) {
-						file.Seek(versionCheck[v]);
-						char8[5] attempt = TrySilent!(file.Read<char8[5]>());
+						File.Seek(versionCheck[v]);
+						char8[5] attempt = TrySilent!(File.Read<char8[5]>());
 						String attemptS = scope String(&attempt, 5);
-						if (attemptS.CompareTo("Spyro", true) == 0) {
-							versionIndex = v;
-							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" was detected!"));
-						}
+						if (attemptS.CompareTo("Spyro", true) == 0) { 
+							versionIndex = v; // If the string "Spyro" is found in one of the .bin files, it sets it to the corresponding game, through an array.
+							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" was detected! \n"));
 
-					} if (versionIndex == -1) {
-						Console.WriteLine("This is not a Spyro - Year of the Dragon ROM. Try again.");
+						}
+					}
+
+
+					if (versionIndex == -1) {
+						Console.WriteLine("This is not a Spyro: Year of the Dragon ROM. Try again.");
 
 					} else {
 
-						file.Seek(firstOffset[versionIndex]);
-						if (TrySilent!(file.Read<int32>()) == 0x14400005) {
-							Console.WriteLine(scope String("This is a unpatched ")..AppendF(gameNames[versionIndex])..AppendF("! \nDo you wish to patch this ROM? (Press ENTER to continue.)"));
-							Console.WriteLine("");
+						// Sets the first File.Seek to the first offset. If we dont specify this, it will read it from the beginning of the file.
+						File.Seek(firstOffset[versionIndex]);
+						if (TrySilent!(File.Read<int32>()) == 0x14400005) { // If the 4 bytes of data are found, it detects it isn't patched and prompts us to patch it.
+							Console.WriteLine(scope String("This is a **UNPATCHED** ")..AppendF(gameNames[versionIndex])..AppendF(" ROM! \nDo you wish to patch this ROM?"));
+							Console.WriteLine("Press Enter to continue.");
 							System.Console.ReadLine(scope String());
-							file.Seek(firstOffset[versionIndex]);
-							int32 readFirstOffset = TrySilent!(file.Read<int32>());
-							file.Seek(firstOffset[versionIndex]);
-							//Console.WriteLine("{:X}", readFirstOffset);
-							TrySilent!(file.Write<int32>(0x10000005));
-							file.Seek(firstOffset[versionIndex]);
-							int32 readFirstOffsetAgain = TrySilent!(file.Read<int32>());
-							//Console.WriteLine("{:X}", readFirstOffsetAgain);
-						} else {
-
-							Console.WriteLine(scope String("This is a patched ")..AppendF(gameNames[versionIndex])..AppendF("!"));
-							Console.WriteLine("Do you wish to unpatch this ROM? (Press ENTER to continue.)");
-							System.Console.ReadLine(scope String());
-							file.Seek(firstOffset[versionIndex]);
-							int32 readFirstOffset = TrySilent!(file.Read<int32>());
-							file.Seek(firstOffset[versionIndex]);
-							//Console.WriteLine("{:X}", readFirstOffset);
-							TrySilent!(file.Write<int32>(0x14400005));
-							file.Seek(firstOffset[versionIndex]);
-							int32 readFirstOffsetAgain = TrySilent!(file.Read<int32>());
-							//Console.WriteLine("{:X}", readFirstOffsetAgain);
-						}
-
-						file.Seek(secondOffset[versionIndex]);
-						if (TrySilent!(file.Read<uint32>()) == secondOffsetValue[versionIndex]) {
-							file.Seek(secondOffset[versionIndex]);
-							int32 readSecondOffset = TrySilent!(file.Read<int32>());
-							file.Seek(secondOffset[versionIndex]);
-							//Console.WriteLine("{:X}", readSecondOffset);
-							TrySilent!(file.Write<int32>(0x00000000));
-							file.Seek(secondOffset[versionIndex]);
-							int32 readSecondOffsetAgain = TrySilent!(file.Read<int32>());
-							//Console.WriteLine("{:X}", readSecondOffsetAgain);
-							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been patched!"));
-							Console.WriteLine("(Double Jump Added!) \n");
+							File.Seek(firstOffset[versionIndex]); // Similar to before, we have to specify to read from the first offset.
+							TrySilent!(File.Write<int32>(0x10000005)); // Setting the first value to the new instruction.
+							File.Seek(secondOffset[versionIndex]); // Similar to before, we have to specify to read from the second offset.
+							TrySilent!(File.Write<int32>(0x00000000)); // Setting the second value to the new instruction.
+							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been patched! \n(Double Jump Added!) \n"));
 							Console.WriteLine("*PLEASE NOTE: This can and **will** enable Anti-Piracy at some point! \nI don't know what exactly triggers it, but you have been warned!");
-						} else {
 
-							file.Seek(secondOffset[versionIndex]);
-							int32 readSecondOffset = TrySilent!(file.Read<int32>());
-							file.Seek(secondOffset[versionIndex]);
-							//Console.WriteLine("{:X}", readSecondOffset);
-							TrySilent!(file.Write<uint32>(secondOffsetValue[versionIndex]));
-							file.Seek(secondOffset[versionIndex]);
-							int32 readSecondOffsetAgain = TrySilent!(file.Read<int32>());
-							//Console.WriteLine("{:X8}", readSecondOffsetAgain);
-							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been unpatched!"));
-							Console.WriteLine("(Double Jump Removed!)");
+						} else { // If the first offset doesn't match with the 4 bytes specified in the if statement, it detects it is patched and prompts us to unpatch it.
+							Console.WriteLine(scope String("This is a **PATCHED** ")..AppendF(gameNames[versionIndex])..AppendF(" ROM! \nDo you wish to unpatch this ROM?"));
+							Console.WriteLine("Press ENTER to continue.");
+							System.Console.ReadLine(scope String());
+							File.Seek(firstOffset[versionIndex]); // Similar to before, we have to specify to read from the first offset.
+							TrySilent!(File.Write<int32>(0x14400005)); // Setting the first value back to the original instruction.
+							File.Seek(secondOffset[versionIndex]); // Similar to before, we have to specify to read from the second offset.
+							TrySilent!(File.Write<uint32>(secondOffsetRestoreValue[versionIndex])); // Setting the second value back to the original instruction, depending on the game.
+							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been unpatched! \n(Double Jump Removed!)"));
+
 						}
 					}
 				}
+
+				Console.WriteLine("\n_\nPress ENTER to exit.");
+				System.Console.ReadLine(scope String());
+
 			}
-			Console.WriteLine("\n_\nPress ENTER to exit.");
-			System.Console.ReadLine(scope String());
 		}
 	}
 }
