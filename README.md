@@ -1,7 +1,7 @@
 # Spyro-YotD-Double-Jump-Patcher
 [![GitHub All Releases](https://img.shields.io/github/downloads/Cooljackup/Spyro-YotD-Double-Jump-Patcher/total)](https://github.com/Cooljackup/Spyro-YotD-Double-Jump-Patcher/releases) [![Discord](https://img.shields.io/discord/619694339777495056?color=7289DA&label=Mod%20the%20Dragon&logo=discord&logoColor=ffffff)](https://discord.gg/nVwGhN2)
 
-This program was made after figuring out how to restore Double Jump back into **Spyro: Year of the Dragon**, from Spyro: Ripto's Rage. This patcher was made to help simplify the process of patching Double Jump back into the game.
+This program was made after figuring out how to restore Double Jump back into **Spyro: Year of the Dragon**, from **Spyro: Ripto's Rage**. This patcher was made to help simplify the process of patching Double Jump back into the game.
 
 ---
 ### Games that are supported:
