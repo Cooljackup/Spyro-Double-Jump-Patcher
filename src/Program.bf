@@ -25,20 +25,21 @@ namespace DoubleJumpPatcher {
 
 
 			FileStream File = scope FileStream();
-			//let result = File.Open("C:/Users/coolj/Desktop/spyro3.bin"); // Used for debugging purposes! You can put your own path and replace mine if you want to test it within Beef.
-			let result = File.Open(args[0]); // Make sure to comment this out if you use the other 'let result', as this is for built versions of the program.
-			int versionIndex = -1; // Sets it to -1 since if none of the version are found, it keeps it at -1 and lets us return a error to the user.
-
 			// This detects whether or not the program was launched without a file specified to read.
-			if (args.Count == 0 && false) {
+			if (args.Count == 0 /*&& false*/) { // Also for debugging purposes! If you use a hardcoded path, make sure to have the && false there. Leave commented out for built versions.
 				Console.WriteLine("No file was detected! (Are you sure you're providing a file path to a Spyro: Year of the Dragon ROM?)");
 
 			} else {
+
+				//let result = File.Open("C:/Users/coolj/Desktop/spyro3.bin"); // Used for debugging purposes! You can put your own path and replace mine if you want to test it within Beef.
+				let result = File.Open(args[0]); // Make sure to comment this out if you use the other 'let result', as this is for built versions of the program.
+
 				switch (result) {
 				case .Err:
 					Console.WriteLine("No file was detected! (Are you providing the correct file path to the ROM?)"); // If a path is specified, but no file is detected.
 
 				case .Ok:
+					int versionIndex = -1; // Sets it to -1 since if none of the version are found, it keeps it at -1 and lets us return a error to the user.
 					// Basic for loop, goes through all 3 offsets from versionCheck, seeing if any of them line up and find the string "Spyro".
 					for (int v < 3) {
 						File.Seek(versionCheck[v]);
@@ -83,11 +84,11 @@ namespace DoubleJumpPatcher {
 						}
 					}
 				}
-
-				Console.WriteLine("\n_\nPress ENTER to exit.");
-				System.Console.ReadLine(scope String());
-
 			}
+
+			Console.WriteLine("\n_\nPress ENTER to exit.");
+			System.Console.ReadLine(scope String());
+
 		}
 	}
 }
