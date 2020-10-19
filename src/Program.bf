@@ -15,11 +15,11 @@ namespace DoubleJumpPatcher {
 		static void Main(String[]args) {
 
 			// Basic window setup.
-			Console.WriteLine("Double Jump Patcher/Unpatcher Tool for Spyro: Year of the Dragon. \nProgram created by Zethical. (Build v10.18.2020) \n\n");
+			Console.WriteLine("Double Jump Patcher/Unpatcher Tool for Spyro: Year of the Dragon. \nProgram created by Zethical. (Build v10.19.2020) \n\n");
 			Console.WriteLine("This tool allows you to add and remove Double Jump back as you please into any version of Spyro: Year of the Dragon.");
-			Console.WriteLine("HOW IT WORKS: It edits a few lines of code in Spyro's movement instructions, which allows us to restore and Double Jump from Spyro: Ripto's Rage back so easily.");
+			Console.WriteLine("HOW IT WORKS: It edits a few lines of code in Spyro's movement instructions, which allows us to restore Double Jump from Spyro: Ripto's Rage back so easily.");
 			Console.WriteLine("HOW TO USE THIS PROGRAM: Just drag and drop any Spyro: Year of the Dragon ROM you wish to patch / unpatch onto this! \n");
-			Console.WriteLine("**IF** you do plan on using this tool, I would always recommended creating a backup of your ROM just in case.");
+			Console.WriteLine("**IF** you do plan on using this tool, I would always recommended creating a backup of your ROM just in case. (*NOTE: Older Builds of Spyro: Year of the Dragon may not work! Back it up if you do!");
 			Console.WriteLine("If you're okay with this, please proceed. You have been warned! \nPress ENTER to continue. \n");
 			System.Console.ReadLine(scope String()); // Waits for the user to hit ENTER, to proceed with code.
 
@@ -68,7 +68,7 @@ namespace DoubleJumpPatcher {
 							TrySilent!(File.Write<int32>(0x10000005)); // Setting the first value to the new instruction.
 							File.Seek(secondOffset[versionIndex]); // Similar to before, we have to specify to read from the second offset.
 							TrySilent!(File.Write<int32>(0x00000000)); // Setting the second value to the new instruction.
-							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been patched! \n(Double Jump Added!) \n"));
+							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been **PATCHED!** \n(Double Jump Added!) \n"));
 							Console.WriteLine("*PLEASE NOTE: This can and **will** enable Anti-Piracy at some point! \nI don't know what exactly triggers it, but you have been warned!");
 
 						} else { // If the first offset doesn't match with the 4 bytes specified in the if statement, it detects it is patched and prompts us to unpatch it.
@@ -79,14 +79,14 @@ namespace DoubleJumpPatcher {
 							TrySilent!(File.Write<int32>(0x14400005)); // Setting the first value back to the original instruction.
 							File.Seek(secondOffset[versionIndex]); // Similar to before, we have to specify to read from the second offset.
 							TrySilent!(File.Write<uint32>(secondOffsetRestoreValue[versionIndex])); // Setting the second value back to the original instruction, depending on the game.
-							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been unpatched! \n(Double Jump Removed!)"));
+							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been **UNPATCHED!** \n(Double Jump Removed!)"));
 
 						}
 					}
 				}
 			}
 
-			Console.WriteLine("\n_\nPress ENTER to exit.");
+			Console.WriteLine("\n_\nPress ENTER to exit the program.");
 			System.Console.ReadLine(scope String());
 
 		}
