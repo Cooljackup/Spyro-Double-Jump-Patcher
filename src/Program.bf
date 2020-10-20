@@ -12,6 +12,12 @@ namespace DoubleJumpPatcher {
 		public const uint32[3] secondOffsetRestoreValue = .(0xAC2003BC, 0xAC20049C, 0xAC2036B8); // These are the original values for each version of the game. The bytes are backwards since thats how they are read.
 
 
+		// Testing Zone:
+		public const uint32 just0 = 0x00000000;
+		public const uint32[3] transitionValue = .(0, 0x2F4A8, 0);
+		public const uint32[3] transitionRestoreValue = .(0, 0xAC23C794, 0);
+
+
 		static void Main(String[]args) {
 
 			// Basic window setup.
@@ -26,13 +32,13 @@ namespace DoubleJumpPatcher {
 
 			FileStream File = scope FileStream();
 			// This detects whether or not the program was launched without a file specified to read.
-			if (args.Count == 0 /*&& false*/) { // Also for debugging purposes! If you use a hardcoded path, make sure to have the && false there. Leave commented out for built versions.
+			if (args.Count == 0 && false) { // Also for debugging purposes! If you use a hardcoded path, make sure to have the && false there. Leave commented out for built versions.
 				Console.WriteLine("No file was detected! (Are you sure you're providing a file path to a Spyro: Year of the Dragon ROM?)");
 
 			} else {
 
-				//let result = File.Open("C:/Users/coolj/Desktop/spyro3.bin"); // Used for debugging purposes! You can put your own path and replace mine if you want to test it within Beef.
-				let result = File.Open(args[0]); // Make sure to comment this out if you use the other 'let result', as this is for built versions of the program.
+				let result = File.Open("C:/Users/coolj/Desktop/spyro3.bin"); // Used for debugging purposes! You can put your own path and replace mine if you want to test it within Beef.
+				//let result = File.Open(args[0]); // Make sure to comment this out if you use the other 'let result', as this is for built versions of the program.
 
 				switch (result) {
 				case .Err:
@@ -60,14 +66,21 @@ namespace DoubleJumpPatcher {
 
 						// Sets the first File.Seek to the first offset. If we dont specify this, it will read it from the beginning of the file.
 						File.Seek(firstOffset[versionIndex]);
-						if (TrySilent!(File.Read<int32>()) == 0x14400005) { // If the 4 bytes of data are found, it detects it isn't patched and prompts us to patch it.
+						if (TrySilent!(File.Read<uint32>()) == 0x14400005) { // If the 4 bytes of data are found, it detects it isn't patched and prompts us to patch it.
 							Console.WriteLine(scope String("This is a **UNPATCHED** ")..AppendF(gameNames[versionIndex])..AppendF(" ROM! \nDo you wish to patch this ROM?"));
 							Console.WriteLine("Press Enter to continue.");
 							System.Console.ReadLine(scope String());
 							File.Seek(firstOffset[versionIndex]); // Similar to before, we have to specify to read from the first offset.
-							TrySilent!(File.Write<int32>(0x10000005)); // Setting the first value to the new instruction.
+							TrySilent!(File.Write<uint32>(0x10000005)); // Setting the first value to the new instruction.
 							File.Seek(secondOffset[versionIndex]); // Similar to before, we have to specify to read from the second offset.
-							TrySilent!(File.Write<int32>(0x00000000)); // Setting the second value to the new instruction.
+							TrySilent!(File.Write<uint32>(just0)); // Setting the second value to the new instruction.
+
+
+							// Testing Zone:
+							File.Seek(transitionValue[versionIndex]);
+							TrySilent!(File.Write<uint32>(just0));
+
+
 							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been **PATCHED!** \n(Double Jump Added!) \n"));
 							Console.WriteLine("*PLEASE NOTE: This can and **will** enable Anti-Piracy at some point! \nI don't know what exactly triggers it, but you have been warned!");
 
@@ -76,9 +89,16 @@ namespace DoubleJumpPatcher {
 							Console.WriteLine("Press ENTER to continue.");
 							System.Console.ReadLine(scope String());
 							File.Seek(firstOffset[versionIndex]); // Similar to before, we have to specify to read from the first offset.
-							TrySilent!(File.Write<int32>(0x14400005)); // Setting the first value back to the original instruction.
+							TrySilent!(File.Write<uint32>(0x14400005)); // Setting the first value back to the original instruction.
 							File.Seek(secondOffset[versionIndex]); // Similar to before, we have to specify to read from the second offset.
 							TrySilent!(File.Write<uint32>(secondOffsetRestoreValue[versionIndex])); // Setting the second value back to the original instruction, depending on the game.
+
+
+							// Testing Zone:
+							File.Seek(transitionValue[versionIndex]);
+							TrySilent!(File.Write<uint32>(transitionRestoreValue[versionIndex]));
+
+
 							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been **UNPATCHED!** \n(Double Jump Removed!)"));
 
 						}
