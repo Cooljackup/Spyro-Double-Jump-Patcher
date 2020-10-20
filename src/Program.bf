@@ -65,9 +65,9 @@ namespace DoubleJumpPatcher {
 							Console.WriteLine("Press Enter to continue.");
 							System.Console.ReadLine(scope String());
 							File.Seek(firstOffset[versionIndex]); // Similar to before, we have to specify to read from the first offset.
-							TrySilent!(File.Write<int32>(0x10000005)); // Setting the first value to the new instruction.
+							TrySilent!(File.Write<uint32>(0x10000005)); // Setting the first value to the new instruction.
 							File.Seek(secondOffset[versionIndex]); // Similar to before, we have to specify to read from the second offset.
-							TrySilent!(File.Write<int32>(0x00000000)); // Setting the second value to the new instruction.
+							TrySilent!(File.Write<uint32>(0x00000000)); // Setting the second value to the new instruction.
 							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been **PATCHED!** \n(Double Jump Added!) \n"));
 							Console.WriteLine("*PLEASE NOTE: This can and **will** enable Anti-Piracy at some point! \nI don't know what exactly triggers it, but you have been warned!");
 
@@ -76,7 +76,7 @@ namespace DoubleJumpPatcher {
 							Console.WriteLine("Press ENTER to continue.");
 							System.Console.ReadLine(scope String());
 							File.Seek(firstOffset[versionIndex]); // Similar to before, we have to specify to read from the first offset.
-							TrySilent!(File.Write<int32>(0x14400005)); // Setting the first value back to the original instruction.
+							TrySilent!(File.Write<uint32>(0x14400005)); // Setting the first value back to the original instruction.
 							File.Seek(secondOffset[versionIndex]); // Similar to before, we have to specify to read from the second offset.
 							TrySilent!(File.Write<uint32>(secondOffsetRestoreValue[versionIndex])); // Setting the second value back to the original instruction, depending on the game.
 							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been **UNPATCHED!** \n(Double Jump Removed!)"));
