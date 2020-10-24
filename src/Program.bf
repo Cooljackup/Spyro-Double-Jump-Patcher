@@ -10,39 +10,7 @@ namespace DoubleJumpPatcher {
 		public const uint32[3] firstOffset = .(0x53FDC, 0x54000, 0x5676C); // This is where the first offset is when the first instruction is changed in the .bin file.
 		public const uint32[3] secondOffset = .(0x54084, 0x540A8, 0x56824); // This is where the second offset is when the second instruction is changed in the .bin file.
 		public const uint32[3] secondOffsetRestoreValue = .(0xAC2003BC, 0xAC20049C, 0xAC2036B8); // These are the original values for each version of the game. The bytes are backwards since thats how they are read.
-		public const uint32 just0 = 0x00000000;
 
-
-		// Testing Zone:
-		public const uint32[3] bootMenu1Location = .(0, 0x2CFD8, 0);
-		public const uint32[3] bootMenu1ReplaceValue = .(0, 0x1000000C, 0);
-		public const uint32[3] bootMenu1RestoreValue = .(0, 0x90820000, 0);
-		public const uint32[3] bootMenu2Location = .(0, 0x148960, 0);
-		public const uint32[3] bootMenu2ReplaceValue = .(0x10000004, 0, 0);
-		public const uint32[3] bootMenu2RestoreValue = .(0, 0x90A20000, 0);
-
-		public const uint32[3] transitionLocation = .(0, 0x2F58C, 0);
-		public const uint32[3] transitionReplaceValue = .(0, 0x10000006, 0);
-		public const uint32[3] transitionRestoreValue = .(0, 0x9062473E, 0);
-
-
-		// WORLDS ARE ENCRYPTED!
-		// First Homeworld & Worlds.
-		// Sunrise Springs = Nothing.
-		public const uint32[3] sunnyVillaLocation = .(0, 0x44C0A84, 0);
-		public const uint32[3] sunnyVillaReplaceValue = .(0, 0, 0);
-		public const uint32[3] sunnyVillaRestoreValue = .(0, 0x800AD90C, 0);
-		// Cloud Spires = Nothing.
-		public const uint32[3] moltenCraterLocation = .(0, 0, 0);
-		public const uint32[3] moltenCraterReplaceValue = .(0, 0, 0);
-		public const uint32[3] moltenCraterRestoreValue = .(0, 0, 0);
-		// Seashell Shore = ?
-		// Mushroom Speedway = ?
-		public const uint32[3] sheilasAlpLocation = .(0, 0, 0);
-		public const uint32[3] sheilasAlpReplaceValue = .(0, 0, 0);
-		public const uint32[3] sheilasAlpRestoreValue = .(0, 0, 0);
-		// Buzz's Dungeon = ?
-		// Crawdad Farm = ?
 
 		static void Main(String[]args) {
 
@@ -99,16 +67,16 @@ namespace DoubleJumpPatcher {
 							File.Seek(firstOffset[versionIndex]); // Similar to before, we have to specify to read from the first offset.
 							TrySilent!(File.Write<uint32>(0x10000005)); // Setting the first value to the new instruction.
 							File.Seek(secondOffset[versionIndex]); // Similar to before, we have to specify to read from the second offset.
-							TrySilent!(File.Write<uint32>(just0)); // Setting the second value to the new instruction.
+							TrySilent!(File.Write<uint32>(0x00000000)); // Setting the second value to the new instruction.
 
 
 							// Testing Zone:
-							File.Seek(bootMenu1Location[versionIndex]);
+							/*File.Seek(bootMenu1Location[versionIndex]);
 							TrySilent!(File.Write<uint32>(bootMenu1ReplaceValue[versionIndex]));
 							File.Seek(bootMenu2Location[versionIndex]);
 							TrySilent!(File.Write<uint32>(bootMenu2ReplaceValue[versionIndex]));
 							File.Seek(transitionLocation[versionIndex]);
-							TrySilent!(File.Write<uint32>(transitionReplaceValue[versionIndex]));
+							TrySilent!(File.Write<uint32>(transitionReplaceValue[versionIndex]));*/
 
 
 							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been **PATCHED!** \n(Double Jump Added!) \n"));
@@ -125,12 +93,12 @@ namespace DoubleJumpPatcher {
 
 
 							// Testing Zone:
-							File.Seek(bootMenu1Location[versionIndex]);
+							/*File.Seek(bootMenu1Location[versionIndex]);
 							TrySilent!(File.Write<uint32>(bootMenu1RestoreValue[versionIndex]));
 							File.Seek(bootMenu2Location[versionIndex]);
 							TrySilent!(File.Write<uint32>(bootMenu2RestoreValue[versionIndex]));
 							File.Seek(transitionLocation[versionIndex]);
-							TrySilent!(File.Write<uint32>(transitionRestoreValue[versionIndex]));
+							TrySilent!(File.Write<uint32>(transitionRestoreValue[versionIndex]));*/
 
 
 							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" has been **UNPATCHED!** \n(Double Jump Removed!)"));
