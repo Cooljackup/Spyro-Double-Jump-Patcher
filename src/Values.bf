@@ -20,58 +20,51 @@ namespace DoubleJumpPatcher {
 		// Credits = ?
 
 
-
-		// First Homeworld & Worlds.
 		// Worlds are encrypted!
 
+		// First Homeworld & Worlds.
 		// Sunrise Springs = Nothing.
-
 		public const uint32[3] sunnyVillaLocation = .(0, 0x487CBB4, 0);
 		public const uint32[3] sunnyVillaReplaceValue = .(0, 0x900931A0, 0);
 		public const uint32[3] sunnyVillaRestoreValue = .(0, 0x106B31A4, 0);
-
 		// Cloud Spires = Nothing.
-
 		public const uint32[3] moltenCraterLocation = .(0, 0x4F5BE2C, 0);
 		public const uint32[3] moltenCraterReplaceValue = .(0, 0x9008D798, 0);
 		public const uint32[3] moltenCraterRestoreValue = .(0, 0x106AD79C, 0);
-
 		public const uint32[3] seashellShoreLocation = .(0, 0x538B350, 0);
 		public const uint32[3] seashellShoreReplaceValue = .(0, 0x9009A9A4, 0);
 		public const uint32[3] seashellShoreRestoreValue = .(0, 0x106BA9AC, 0);
-
 		// Mushroom Speedway = Nothing.
-
 		public const uint32[3] sheilasAlpLocation = .(0, 0x57F4FE0, 0);
 		public const uint32[3] sheilasAlpReplaceValue = .(0, 0x900878E8, 0);
 		public const uint32[3] sheilasAlpRestoreValue = .(0, 0x106A78EC, 0);
-
 		public const uint32[3] buzzsDungeonLocation = .(0, 0x5994CE0, 0);
 		public const uint32[3] buzzsDungeonReplaceValue = .(0, 0x9008512C, 0);
 		public const uint32[3] buzzsDungeonRestoreValue = .(0, 0x106A5128, 0);
-
 		// Crawdad Farm = ?
 
 
 		// Second Homeworld & Worlds.
-
-
 		// Midday Gardens = Nothing.
-
-		// Icy Peak = ?
-
-		// Enchanted Towers = ?
-
-		// Spooky Swamp = ?
-
-		// Bamboo Terrance = ?
-
+		public const uint32[3] icyPeakLocation = .(0, 0x6198D70, 0);
+		public const uint32[3] icyPeakReplaceValue = .(0, 0x90090888, 0);
+		public const uint32[3] icyPeakRestoreValue = .(0, 0x104B088C, 0);
+		public const uint32[3] enchantedTowersLocation = .(0, 0x659E41C, 0);
+		public const uint32[3] enchantedTowersReplaceValue = .(0, 0x9009C3E0, 0);
+		public const uint32[3] enchantedTowersRestoreValue = .(0, 0x104BC3E4, 0);
+		public const uint32[3] spookySwampLocation = .(0, 0x6935E30, 0);
+		public const uint32[3] spookySwampReplaceValue = .(0, 0x9009764C, 0);
+		public const uint32[3] spookySwampRestoreValue = .(0, 0x106B7648, 0);
+		public const uint32[3] bambooTerranceLocation = .(0, 0x6D126D8, 0);
+		public const uint32[3] bambooTerranceReplaceValue = .(0, 0x90097E30, 0);
+		public const uint32[3] bambooTerranceRestoreValue = .(0, 0x106B7E34, 0);
 		// Country Speedway = ?
-
-		// Sgt. Byrd's Base = ?
-
-		// Spike's Arena = ?
-
+		public const uint32[3] sgt.ByrdsBaseLocation = .(0, 0x71F05BC, 0);
+		public const uint32[3] sgt.ByrdsBaseReplaceValue = .(0, 0x9008C058, 0);
+		public const uint32[3] sgt.ByrdsBaseRestoreValue = .(0, 0x106AC05C, 0);
+		public const uint32[3] spikesArenaLocation = .(0, 0x73EEAE4, 0);
+		public const uint32[3] spikesArenaReplaceValue = .(0, 0x9008AD08, 0);
+		public const uint32[3] spikesArenaRestoreValue = .(0, 0x106AAD0C, 0);
 		// Spider Town = ?
 
 
