@@ -1,41 +1,9 @@
 using System;
 using System.IO;
+using System.Diagnostics;
 
 namespace DoubleJumpPatcher {
 	class Program {
-
-		public static int versionIndex = -1;
-		public const String[9] gameNames = .(
-			//Final Releases
-			"Spyro the Dragon (NTSC-U)",
-			"Spyro the Dragon (PAL)",
-			"Spyro the Dragon (NTSC-J)",
-			"Spyro: Ripto's Rage (NTSC-U)",
-			"Spyro: Gateway to Glimmer (PAL)",
-			"Spyro and Sparx: Tondemo Tours (NTSC-J)",
-			"Spyro: Year of the Dragon (v1.0 NTSC-U)",
-			"Spyro: Year of the Dragon (v1.1 NTSC-U)",
-			"Spyro: Year of the Dragon (v1.0/v1.1 PAL)"
-			//Prototypes
-
-			);
-
-		public const uint32[9] versionCheck = .(
-			//Final Releases
-			0x78D8DBF,
-			0x1109B,
-			0xE69C,
-			0x721E0,
-			0x78548,
-			0xB7449B3,
-			0x783F8,
-			0x784D8,
-			0xCB69
-			//Prototypes
-
-			);
-
-
 
 		static void Main(String[]args) {
 
@@ -44,10 +12,11 @@ namespace DoubleJumpPatcher {
 			filePath.SetFilter("ISO/BIN File (*.iso; *.bin)|*.iso; *.bin");
 			filePath.CheckFileExists = true;
 
-			Console.WriteLine("Double Jump Patcher/Unpatcher Tool for the classic Spyro Games. \nThis tool allows you to add and remove the famous Double Jump glitch anytime into any of the classic Spyro Games! \nProgram created and built by Zethical. (Build v05.13.2021) \n\n");
+			Console.WriteLine("Double Jump Patcher/Unpatcher Tool for the classic Spyro Games. \nThis tool allows you to add and remove the famous Double Jump glitch anytime into any of the classic Spyro Games! \nProgram created and built by Zethical. (Build v05.16.2021) \n\n");
 			Console.WriteLine("If you plan on using this tool I highly recommended creating a backup of your Spyro ROM just in case! \n*PLEASE NOTE: Not all builds of the classic Spyro Games may be supported!");
-			Console.WriteLine("If you're okay with this, please proceed. You have been warned! \nPress ENTER to continue and then select your Spyro ROM.\n");
+			Console.WriteLine("If you're okay with this, please proceed. You have been warned! \nPress ENTER to continue and then select your Spyro ROM!\n\n");
 			System.Console.ReadLine(scope String());
+
 
 			if(filePath.ShowDialog() case .Ok(let val)) {
 				if(val == .OK) {
@@ -56,7 +25,7 @@ namespace DoubleJumpPatcher {
 
 					
 					file.Open(path);
-					for (int v < 9) {
+					for (int v < 10) {
 						if (file.Length < versionCheck[v]){
 							continue;
 						}
@@ -66,13 +35,20 @@ namespace DoubleJumpPatcher {
 						String attemptString = scope String(&attempt, 5);
 						if (attemptString.CompareTo("Spyro", true) == 0) { 
 							versionIndex = v;
-							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" was detected! \n"));
+							Debug.WriteLine(scope String()..AppendF("{:X}", gameNames[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", versionCheck[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", firstOffset[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", firstOffsetNewValue[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", firstOffsetOriginalValue[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", secondOffset[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", secondOffsetNewValue[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", secondOffsetOriginalValue[versionIndex]));
+							Console.WriteLine(scope String(gameNames[versionIndex])..AppendF(" was detected!"));
 							Console.ReadLine(scope String());
 						}
 					}
 
 					switch (versionIndex) {
-						//Final Releases
 						//Spyro the Dragon
 						case 0,1,2: {
 							Console.WriteLine(versionIndex);
@@ -81,29 +57,55 @@ namespace DoubleJumpPatcher {
 						}
 
 						//Spyro: Ripto's Rage
-						case 3,4,5: {
+						case 3,4: {
 							Console.WriteLine(versionIndex);
 							Console.WriteLine("Spyro: Ripto's Rage");
 							Console.ReadLine(scope String());
 						}
 
-						//Spyro: Year of the Dragon
-						case 6,7,8,9: {
+						//Spyro and Sparx: Tondemo Tours
+						case 5: {
 							Console.WriteLine(versionIndex);
-							Console.WriteLine("Spyro: Year of the Dragon");
+							Console.WriteLine("Spyro and Sparx: Tondemo Tours");
 							Console.ReadLine(scope String());
 						}
 
+						//Spyro: Year of the Dragon
+						case 6,7,8,9: {
+							file.Seek(firstOffset[versionIndex]);
+							if (TrySilent!(file.Read<uint32>()) == firstOffsetOriginalValue[versionIndex]) {
+								Console.WriteLine(scope String("This is a **UNPATCHED** ")..AppendF(gameNames[versionIndex])..AppendF(" ROM! \nDo you wish to patch this ROM?"));
+								Console.WriteLine("Press Enter to continue.");
+								Console.ReadLine(scope String());
+								file.Seek(firstOffset[versionIndex]);
+								TrySilent!(file.Write<uint32>(firstOffsetNewValue[versionIndex]));
+								file.Seek(secondOffset[versionIndex]);
+								TrySilent!(file.Write<uint32>(secondOffsetNewValue[versionIndex]));
+								Console.WriteLine("Your Spyro ROM has been **PATCHED**! (Double Jump Added!)");
+								Console.WriteLine("*PLEASE NOTE: Anti-Piracy can and will trigger at some point! I dont know what triggers it, but you have been warned!");
+							} else {
+								Console.WriteLine(scope String("This is a **PATCHED** ")..AppendF(gameNames[versionIndex])..AppendF(" ROM! \nDo you wish to unpatch this ROM?"));
+								Console.WriteLine("Press ENTER to continue.");
+								System.Console.ReadLine(scope String());
+								file.Seek(firstOffset[versionIndex]);
+								TrySilent!(file.Write<uint32>(firstOffsetOriginalValue[versionIndex]));
+								file.Seek(secondOffset[versionIndex]);
+								TrySilent!(file.Write<uint32>(secondOffsetOriginalValue[versionIndex]));
+								Console.WriteLine("Your Spyro ROM has been **UNPATCHED**! (Double Jump Removed!)");
+							}
+						}
+
 						default: {
-							Console.WriteLine("Not a valid Spyro ROM! Are you sure you selected the correct file?");
+							Console.WriteLine("The file you selected is not a valid Spyro ROM! Are you sure you selected the correct file?");
 							Console.ReadLine(scope String());
 						}
 					}
 				}
 			} else {
-				Console.WriteLine("File selection was cancelled! \nPress ENTER to exit the program.");
-				Console.ReadLine(scope String());
+				Console.WriteLine("File selection was cancelled!");
 			}
+			Console.WriteLine("Press ENTER to exit the program.");
+			Console.ReadLine(scope String());
 		}
 	}
 }
