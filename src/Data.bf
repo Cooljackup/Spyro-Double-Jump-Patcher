@@ -1,7 +1,13 @@
 using System;
 
 namespace DoubleJumpPatcher {
-	static {
+	public static {
+
+		public static void WarningText(String Text) {
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(Text);
+			Console.ForegroundColor = ConsoleColor.White;
+		}
 
 		public static int versionIndex = -1;
 		public const String[10] gameNames = .(
@@ -27,8 +33,8 @@ namespace DoubleJumpPatcher {
 			0x1109B,
 			0xE69C,
 			//Spyro: Ripto's Rage
-			0x721E0,
-			0x78548,
+			0x,
+			0x,
 			0xB7449B3,
 			//Spyro: Year of the Dragon
 			0x783F8,
@@ -42,13 +48,13 @@ namespace DoubleJumpPatcher {
 		public const uint32[10] firstOffset = .(
 			//Final Releases
 			//Spyro the Dragon
-			0x790F2F0,
-			0x4AFA0,
-			0x493B0,
-			//Spyro: Ripto's Rage
-			0x39A7C,
-			0x3C108,
 			0x,
+			0x,
+			0x,
+			//Spyro: Ripto's Rage
+			0x,
+			0x,
+			0x3BEC8,
 			//Spyro: Year of the Dragon
 			0x53FDC,
 			0x54000,
@@ -61,13 +67,13 @@ namespace DoubleJumpPatcher {
 		public const uint32[10] secondOffset = .(
 			//Final Releases
 			//Spyro the Dragon
-			0x,
-			0x,
-			0x,
+			0x0,
+			0x0,
+			0x0,
 			//Spyro: Ripto's Rage
 			0x,
 			0x,
-			0x,
+			0x3BF90,
 			//Spyro: Year of the Dragon
 			0x54084,
 			0x540A8,
@@ -86,7 +92,7 @@ namespace DoubleJumpPatcher {
 			//Spyro: Ripto's Rage
 			0x,
 			0x,
-			0x,
+			0x10000005,
 			//Spyro: Year of the Dragon
 			0x10000005,
 			0x10000005,
@@ -105,7 +111,7 @@ namespace DoubleJumpPatcher {
 			//Spyro: Ripto's Rage
 			0x,
 			0x,
-			0x,
+			0x14400005,
 			//Spyro: Year of the Dragon
 			0x14400005,
 			0x14400005,
@@ -124,7 +130,7 @@ namespace DoubleJumpPatcher {
 			//Spyro: Ripto's Rage
 			0x,
 			0x,
-			0x,
+			0x10000009,
 			//Spyro: Year of the Dragon
 			0x00000000,
 			0x00000000,
@@ -143,7 +149,7 @@ namespace DoubleJumpPatcher {
 			//Spyro: Ripto's Rage
 			0x,
 			0x,
-			0x,
+			0x18400009,
 			//Spyro: Year of the Dragon
 			0xAC2003BC,
 			0xAC20049C,

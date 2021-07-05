@@ -7,21 +7,27 @@ namespace DoubleJumpPatcher {
 
 		static void Main(String[]args) {
 
+			
+			
+			Console.ForegroundColor = ConsoleColor.White;
 			FileStream file = scope FileStream();
 			OpenFileDialog filePath = scope OpenFileDialog();
 			filePath.SetFilter("ISO/BIN File (*.iso; *.bin)|*.iso; *.bin");
 			filePath.CheckFileExists = true;
 
-			Console.WriteLine("Double Jump Patcher/Unpatcher Tool for the classic Spyro Games. \nThis tool allows you to add and remove the famous Double Jump glitch anytime into any of the classic Spyro Games! \nProgram created and built by Zethical. (Build v05.16.2021) \n\n");
-			Console.WriteLine("If you plan on using this tool I highly recommended creating a backup of your Spyro ROM just in case! \n*PLEASE NOTE: Not all builds of the classic Spyro Games may be supported!");
-			Console.WriteLine("If you're okay with this, please proceed. You have been warned! \nPress ENTER to continue and then select your Spyro ROM!\n\n");
+			Console.WriteLine("Double Jump Patcher/Unpatcher Tool for the classic Spyro Games. \nThis tool allows you to add and remove the famous Double Jump glitch anytime into any of the classic Spyro Games! \nProgram created and built by Zethical. (Build v07.05.2021) \n\n");
+			Console.Write("If you plan on using this tool I highly recommended creating a backup of your Spyro ROM just in case! \n*");
+			WarningText("PLEASE NOTE: Not all builds of the classic Spyro Games may be supported!");
+			Console.Write("If you're okay with this, please proceed. ");
+			WarningText("You have been warned!");
+			Console.WriteLine("Press ENTER to continue and then select your Spyro ROM!\n");
 			System.Console.ReadLine(scope String());
-
+			Console.WriteLine("___");
 
 			if(filePath.ShowDialog() case .Ok(let val)) {
 				if(val == .OK) {
 					let path = filePath.FileNames[0];
-					Console.WriteLine(path);
+					WarningText(path);
 
 					
 					file.Open(path);
@@ -65,9 +71,26 @@ namespace DoubleJumpPatcher {
 
 						//Spyro and Sparx: Tondemo Tours
 						case 5: {
-							Console.WriteLine(versionIndex);
-							Console.WriteLine("Spyro and Sparx: Tondemo Tours");
-							Console.ReadLine(scope String());
+							file.Seek(firstOffset[versionIndex]);
+							if (TrySilent!(file.Read<uint32>()) == firstOffsetOriginalValue[versionIndex]) {
+								Console.WriteLine(scope String("This is a **UNPATCHED** ")..AppendF(gameNames[versionIndex])..AppendF(" ROM! \nDo you wish to patch this ROM?"));
+								Console.WriteLine("Press Enter to continue.");
+								Console.ReadLine(scope String());
+								file.Seek(firstOffset[versionIndex]);
+								TrySilent!(file.Write<uint32>(firstOffsetNewValue[versionIndex]));
+								file.Seek(secondOffset[versionIndex]);
+								TrySilent!(file.Write<uint32>(secondOffsetNewValue[versionIndex]));
+								Console.WriteLine("Your Spyro ROM has been **PATCHED**! (Double Jump Added!)");
+							} else {
+								Console.WriteLine(scope String("This is a **PATCHED** ")..AppendF(gameNames[versionIndex])..AppendF(" ROM! \nDo you wish to unpatch this ROM?"));
+								Console.WriteLine("Press ENTER to continue.");
+								System.Console.ReadLine(scope String());
+								file.Seek(firstOffset[versionIndex]);
+								TrySilent!(file.Write<uint32>(firstOffsetOriginalValue[versionIndex]));
+								file.Seek(secondOffset[versionIndex]);
+								TrySilent!(file.Write<uint32>(secondOffsetOriginalValue[versionIndex]));
+								Console.WriteLine("Your Spyro ROM has been **UNPATCHED**! (Double Jump Removed!)");
+							}
 						}
 
 						//Spyro: Year of the Dragon
