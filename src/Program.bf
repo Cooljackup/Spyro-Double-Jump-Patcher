@@ -9,7 +9,7 @@ namespace DoubleJumpPatcher {
 			
 			FileStream file = scope FileStream();
 			OpenFileDialog filePath = scope OpenFileDialog();
-			filePath.SetFilter("ISO/BIN File (*.iso; *.bin)|*.iso; *.bin");
+			filePath.SetFilter("ISO/BIN/IMG File (*.iso; *.bin; *.img)|*.iso; *.bin; *.img");
 			filePath.CheckFileExists = true;
 			Console.ForegroundColor = ConsoleColor.White;
 
@@ -28,9 +28,8 @@ namespace DoubleJumpPatcher {
 					let path = filePath.FileNames[0];
 					WarningText(path);
 
-					
 					file.Open(path);
-					for (int v < 10) {
+					for (int v < 37) {
 						if (file.Length < versionCheck[v]){
 							continue;
 						}
@@ -40,6 +39,14 @@ namespace DoubleJumpPatcher {
 						String attemptString = scope String(&attempt, 5);
 						if (attemptString.CompareTo("Spyro", true) == 0) { 
 							versionIndex = v;
+							Debug.WriteLine(scope String()..AppendF("{:X}", gameNames[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", versionCheck[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", firstOffset[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", firstOffsetNewValue[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", firstOffsetOriginalValue[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", secondOffset[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", secondOffsetNewValue[versionIndex]));
+							Debug.WriteLine(scope String()..AppendF("{:X}", secondOffsetOriginalValue[versionIndex]));
 							Console.WriteLine(scope String("\n")..AppendF(gameNames[versionIndex])..AppendF(" was detected! \n"));
 							Console.ReadLine(scope String());
 						}
@@ -90,6 +97,7 @@ namespace DoubleJumpPatcher {
 						Console.WriteLine("\nThe file you selected is not a valid Spyro ROM! Are you sure you selected the correct file? \n");
 					}
 				}
+
 			} else {
 				Console.WriteLine("File selection was cancelled!");
 			}
