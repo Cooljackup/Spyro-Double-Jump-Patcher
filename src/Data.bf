@@ -11,8 +11,7 @@ namespace DoubleJumpPatcher {
 
 
 		public static int versionIndex = -1;
-		public const String[37] gameNames = .(
-			//Final Releases
+		public const String[10] gameNames = .(
 			"Spyro the Dragon (NTSC-U)",
 			"Spyro the Dragon (PAL)",
 			"Spyro the Dragon (NTSC-J)",
@@ -22,42 +21,10 @@ namespace DoubleJumpPatcher {
 			"Spyro: Year of the Dragon (v1.0 NTSC-U)",
 			"Spyro: Year of the Dragon (v1.1 NTSC-U)",
 			"Spyro: Year of the Dragon (v1.0 PAL)",
-			"Spyro: Year of the Dragon (v1.1 PAL)",
-			//Prototypes
-			//Spyro the Dragon
-			"Spyro the Dragon - Tabloid Demo (NTSC-U)",
-			"Spyro the Dragon - June 15th Prototype (NTSC-U)",
-			"Spyro the Dragon - Speciale Demo (PAL)",
-			"Spyro the Dragon - July 18th Prototype (NTSC-U)",
-			"Spyro the Dragon - August 27th Prototype (PAL)",
-			"Spyro the Dragon - Crash 3 Demo (NTSC-U)",
-			"Spyro the Dragon - Crash 3 Demo (PAL)",
-			"Spyro the Dragon - Foil Demo (NTSC-U)",
-			"Spyro the Dragon - PurePure Demo (NTSC-J)",
-			"Spyro the Dragon - Taikenban Demo (NTSC-J)",
-			//Spyro: Ripto's Rage
-			"Spyro: Ripto's Rage - Demo 1 (NTSC-U)",
-			"Spyro: Gateway to Glimmer - Demo 2 (PAL)",
-			"Spyro: Ripto's Rage - August 11th Prototype (NTSC-U)",
-			"Spyro: Ripto's Rage - CTR Demo (NTSC-U)",
-			"Spyro: Gateway to Glimmer - CTR Demo (PAL)",
-			"Spyro: Ripto's Rage - Standalone Demo (NTSC-U)",
-			"Spyro and Sparx: Tondemo Tours - CBR Demo (NTSC-J)",
-			"Spyro and Sparx: Tondemo Tours - PurePure Demo (NTSC-J)",
-			"Spyro and Sparx: Tondemo Tours - Taikenban Demo (NTSC-J)",
-			//Spyro: Year of the Dragon
-			"Spyro: Year of the Dragon - April 25th Prototype (NTSC-U)",
-			"Spyro: Year of the Dragon - Crash Bash & Spyro 3 Demo (NTSC-U)",
-			"Spyro: Year of the Dragon - Test Drive Demo (NTSC-U)",
-			"Spyro: Year of the Dragon - Demo 3 (PAL)",
-			"Spyro: Year of the Dragon - Demo 4 (PAL)",
-			"Spyro: Year of the Dragon - Crash Bash Demo (NTSC-U)",
-			"Spyro: Year of the Dragon - Crash Bash Demo (PAL)",
-			"Spyro: Year of the Dragon - September 4th Prototype (NTSC-U)"
+			"Spyro: Year of the Dragon (v1.1 PAL)"
 			);
 
-		public const uint32[37] versionCheck = .(
-			//Final Releases
+		public const uint32[10] versionCheck = .(
 			//Spyro the Dragon
 			0x78D8DBF,
 			0x1109B,
@@ -70,42 +37,10 @@ namespace DoubleJumpPatcher {
 			0x783F8,
 			0x784D8,
 			0xC508888,
-			0xC5091B8,
-			//Prototypes
-			//Spyro the Dragon
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Ripto's Rage
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Year of the Dragon
-			0xCAF5,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0xCB2D
+			0xC5091B8
 			);
 
-		public const uint32[37] firstOffset = .(
-			//Final Releases
+		public const uint32[10] firstOffset = .(
 			//Spyro the Dragon
 			0x790F2F0,
 			0x4AFA0,
@@ -118,42 +53,10 @@ namespace DoubleJumpPatcher {
 			0x53FDC,
 			0x54000,
 			0x5676C,
-			0x5676C,
-			//Prototypes
-			//Spyro the Dragon
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Ripto's Rage
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Year of the Dragon
-			0x522CC,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x541A4
+			0x5676C
 			);
 
-		public const uint32[37] secondOffset = .(
-			//Final Releases
+		public const uint32[10] secondOffset = .(
 			//Spyro the Dragon
 			0x7911DB4,
 			0x4DBA8,
@@ -166,42 +69,10 @@ namespace DoubleJumpPatcher {
 			0x54084,
 			0x540A8,
 			0x56824,
-			0x56824,
-			//Prototypes
-			//Spyro the Dragon
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Ripto's Rage
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Year of the Dragon
-			0x52374,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x5424C
+			0x56824
 			);
 
-		public const uint32[37] firstOffsetNewValue = .(
-			//Final Releases
+		public const uint32[10] firstOffsetNewValue = .(
 			//Spyro the Dragon
 			0x00000000,
 			0x00000000,
@@ -214,42 +85,10 @@ namespace DoubleJumpPatcher {
 			0x10000005,
 			0x10000005,
 			0x10000005,
-			0x10000005,
-			//Prototypes
-			//Spyro the Dragon
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Ripto's Rage
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Year of the Dragon
-			0x10000005,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
 			0x10000005
 			);
 
-		public const uint32[37] firstOffsetOriginalValue = .(
-			//Final Releases
+		public const uint32[10] firstOffsetOriginalValue = .(
 			//Spyro the Dragon
 			0x1040001B,
 			0x1040001B,
@@ -262,42 +101,10 @@ namespace DoubleJumpPatcher {
 			0x14400005,
 			0x14400005,
 			0x14400005,
-			0x14400005,
-			//Prototypes
-			//Spyro the Dragon
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Ripto's Rage
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Year of the Dragon
-			0x14400005,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
 			0x14400005
 			);
 
-		public const uint32[37] secondOffsetNewValue = .(
-			//Final Releases
+		public const uint32[10] secondOffsetNewValue = .(
 			//Spyro the Dragon
 			0x24022000,
 			0x24022000,
@@ -310,42 +117,10 @@ namespace DoubleJumpPatcher {
 			0x00000000,
 			0x00000000,
 			0x00000000,
-			0x00000000,
-			//Prototypes
-			//Spyro the Dragon
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Ripto's Rage
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Year of the Dragon
-			0x00000000,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
 			0x00000000
 			);
 
-		public const uint32[37] secondOffsetOriginalValue = .(
-			//Final Releases
+		public const uint32[10] secondOffsetOriginalValue = .(
 			//Spyro the Dragon
 			0x24021F80,
 			0x240225CD,
@@ -358,38 +133,7 @@ namespace DoubleJumpPatcher {
 			0xAC2003BC,
 			0xAC20049C,
 			0xAC2036B8,
-			0xAC2036B8,
-			//Prototypes
-			//Spyro the Dragon
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Ripto's Rage
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			//Spyro: Year of the Dragon
-			0xAC209C8C,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0x,
-			0xAC200518
+			0xAC2036B8
 			);
 	}
 }

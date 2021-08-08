@@ -13,10 +13,10 @@ namespace DoubleJumpPatcher {
 			filePath.CheckFileExists = true;
 			Console.ForegroundColor = ConsoleColor.White;
 
-			WarningText("Double Jump Patcher/Unpatcher Tool for the classic Spyro Games. \n");
-			Console.WriteLine("This tool allows you to add and remove the famous Double Jump glitch anytime into any of the classic Spyro Games! \nProgram created and built by Zethical. (Build v07.05.2021) \n");
+			WarningText("Double Jump Patcher/Unpatcher Tool for the PS1 Spyro Games. \n");
+			Console.WriteLine("This tool allows you to add and remove the famous Double Jump glitch anytime into any of the PS1 Spyro Games! \nProgram created and built by Zethical. (Build v08.07.2021) \n");
 			Console.Write("If you plan on using this tool I highly recommended creating a backup of your Spyro ROM just in case! \n*");
-			WarningText("PLEASE NOTE: Not all builds of the classic Spyro Games may be supported! \n");
+			WarningText("PLEASE NOTE: Not all builds of the PS1 Spyro Games may be supported! \n");
 			Console.Write("If you're okay with this, please proceed. ");
 			WarningText("You have been warned! \n");
 			Console.WriteLine("Press ENTER to continue and then select your Spyro ROM!\n");
@@ -29,7 +29,7 @@ namespace DoubleJumpPatcher {
 					WarningText(path);
 
 					file.Open(path);
-					for (int v < 37) {
+					for (int v < 10) {
 						if (file.Length < versionCheck[v]){
 							continue;
 						}
@@ -39,14 +39,6 @@ namespace DoubleJumpPatcher {
 						String attemptString = scope String(&attempt, 5);
 						if (attemptString.CompareTo("Spyro", true) == 0) { 
 							versionIndex = v;
-							Debug.WriteLine(scope String()..AppendF("{:X}", gameNames[versionIndex]));
-							Debug.WriteLine(scope String()..AppendF("{:X}", versionCheck[versionIndex]));
-							Debug.WriteLine(scope String()..AppendF("{:X}", firstOffset[versionIndex]));
-							Debug.WriteLine(scope String()..AppendF("{:X}", firstOffsetNewValue[versionIndex]));
-							Debug.WriteLine(scope String()..AppendF("{:X}", firstOffsetOriginalValue[versionIndex]));
-							Debug.WriteLine(scope String()..AppendF("{:X}", secondOffset[versionIndex]));
-							Debug.WriteLine(scope String()..AppendF("{:X}", secondOffsetNewValue[versionIndex]));
-							Debug.WriteLine(scope String()..AppendF("{:X}", secondOffsetOriginalValue[versionIndex]));
 							Console.WriteLine(scope String("\n")..AppendF(gameNames[versionIndex])..AppendF(" was detected! \n"));
 							Console.ReadLine(scope String());
 						}
